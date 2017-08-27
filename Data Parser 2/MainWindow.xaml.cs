@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Data_Parser_2.Api;
 
 namespace Data_Parser_2
 {
@@ -23,6 +25,12 @@ namespace Data_Parser_2
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var results = await Api.Api.FetchAllNearbyPlaces("6.911398,79.870934", 500, "food");
+
         }
     }
 }
