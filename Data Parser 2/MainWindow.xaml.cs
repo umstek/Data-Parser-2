@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Data_Parser_2.Api;
 
 namespace Data_Parser_2
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,10 +14,15 @@ namespace Data_Parser_2
             InitializeComponent();
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void ButtonSearch_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var results = await Api.Api.FetchAllNearbyPlaces("6.911398,79.870934", 500, "food");
-
+            progressBarSearch.IsIndeterminate = true;
+            var results = await
+                Api.Api.FetchAllNearbyPlacesAsync(textBoxLocation.Text, int.Parse(textBoxRadius.Text),
+                    textBoxTypes.Text);
+            Console.WriteLine(results.Count);
+            //MessageBox.Show($"{results.Count} results fetched. ");
+            progressBarSearch.IsIndeterminate = false;
         }
     }
 }

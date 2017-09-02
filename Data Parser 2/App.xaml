@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Data_Parser_2"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>

@@ -7,6 +7,7 @@ namespace Data_Parser_2.Api
     {
         [JsonProperty(PropertyName = "next_page_token")]
         public string NextPageToken { get; set; }
+
         public List<Result> Results { get; set; }
     }
 }

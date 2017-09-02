@@ -5,9 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Data_Parser_2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Search Nearby JSON to CSV" Height="289" Width="525" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="231,86,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-
+        <TextBox x:Name="textBoxLocation" Margin="95,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42"
+                 Text="6.911398,79.870934" />
+        <TextBox x:Name="textBoxRadius" Height="42" Margin="95,57,10,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                 Text="500" />
+        <TextBox x:Name="textBoxTypes" Height="42" Margin="95,104,10,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                 Text="food" />
+        <Label Content="Location&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,267" Width="80"
+               HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Top" />
+        <Label Content="Radius&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top"
+               Width="80" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
+        <Label Content="Types&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"
+               Width="80" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
+        <Button x:Name="buttonSearch" Content="Search" Margin="10,151,0,0" VerticalAlignment="Top" Width="80"
+                Height="42" HorizontalContentAlignment="Center" HorizontalAlignment="Left"
+                VerticalContentAlignment="Center" Click="ButtonSearch_ClickAsync" />
+        <ProgressBar x:Name="progressBarSearch" Height="42" Margin="95,151,10,0" VerticalAlignment="Top" />
+        <Button x:Name="buttonSave" Content="Save to CSV" HorizontalAlignment="Left" Margin="10,198,0,0"
+                VerticalAlignment="Top" Width="80" Height="42" />
+        <ProgressBar x:Name="progressBarSave" Height="42" Margin="95,198,10,0" VerticalAlignment="Top" />
     </Grid>
 </Window>

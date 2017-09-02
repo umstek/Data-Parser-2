@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using Refit;
 
 namespace Data_Parser_2.Api
@@ -10,27 +11,34 @@ namespace Data_Parser_2.Api
     {
         static Api()
         {
-            NearbySearchApi = RestService.For<INearbySearchApi>("https://maps.googleapis.com/maps/api/place/nearbysearch");
+            NearbySearchApi =
+                RestService.For<INearbySearchApi>("https://maps.googleapis.com/maps/api/place/nearbysearch");
         }
 
-        public static INearbySearchApi NearbySearchApi { get; }
+        private static INearbySearchApi NearbySearchApi { get; }
 
-        public static async Task<List<Result>> FetchAllNearbyPlaces(string location, int radius, string types)
+        public static IObservable<List<Result>> FetchAllNearbyPlacesAsync(string location, int radius, string types)
         {
-            var results = new List<Result>();
-
-            var responseTask = NearbySearchApi.FindNearby("6.911398,79.870934", 500, "food");
-            void OnTaskComplete()
-            {
-                results.AddRange(responseTask.Result.Results);
-                Thread.Sleep(1000);
-                if (string.IsNullOrEmpty(responseTask.Result.NextPageToken)) return;
-                responseTask = NearbySearchApi.NextPage(responseTask.Result.NextPageToken);
-                responseTask.GetAwaiter().OnCompleted(OnTaskComplete);
-            }
-            responseTask.GetAwaiter().OnCompleted(OnTaskComplete);
-
-            return results;
+            return NearbySearchApi.FindNearby(location, radius, types)
+                .ToObservable()
+                .Timeout(TimeSpan.FromSeconds(1))
+                .Delay(TimeSpan.FromMilliseconds(100))
+                .Retry(5)
+                .Delay(TimeSpan.FromSeconds(1))
+                .ToAsyncEnumerable()
+                .Expand(response =>
+                    Observable.If(() => !string.IsNullOrEmpty(response.NextPageToken),
+                        NearbySearchApi.NextPage(response.NextPageToken)
+                            .ToObservable()
+                            .Timeout(TimeSpan.FromSeconds(1))
+                            .Delay(TimeSpan.FromMilliseconds(100))
+                            .Retry(5)
+                            .Delay(TimeSpan.FromSeconds(1))
+                    )
+                    .ToAsyncEnumerable()
+                )
+                .ToObservable()
+                .Aggregate(new List<Result>(), (list, response) => list.Concat(response.Results).ToList());
         }
     }
 }
