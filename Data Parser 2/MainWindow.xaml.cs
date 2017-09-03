@@ -18,7 +18,7 @@ namespace Data_Parser_2
         {
             progressBarSearch.IsIndeterminate = true;
             var results = await
-                Api.Api.FetchAllNearbyPlacesAsync(textBoxLocation.Text, int.Parse(textBoxRadius.Text),
+                Api.Api.FetchAllNearbyPlaces(textBoxLocation.Text, int.Parse(textBoxRadius.Text),
                     textBoxTypes.Text);
             Console.WriteLine(results.Count);
             //MessageBox.Show($"{results.Count} results fetched. ");

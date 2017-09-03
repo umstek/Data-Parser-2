@@ -13,8 +13,8 @@
                  Text="500" />
         <TextBox x:Name="textBoxTypes" Height="42" Margin="95,104,10,0" TextWrapping="Wrap" VerticalAlignment="Top"
                  Text="food" />
-        <Label Content="Location&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,267" Width="80"
-               HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Top" />
+        <Label Content="Location&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" Width="80"
+               HorizontalContentAlignment="Right" VerticalContentAlignment="Center" VerticalAlignment="Top" Height="42" />
         <Label Content="Radius&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top"
                Width="80" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />
         <Label Content="Types&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top"
