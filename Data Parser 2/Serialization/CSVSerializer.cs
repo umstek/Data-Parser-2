@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Data_Parser_2.Api;
 
 namespace Data_Parser_2.Serialization
 {
-    public class CSVSerializer
+    public static class CsvSerializer
     {
-        public string EncodeHeader()
+        private static string EncodeHeader()
         {
             return "Name,Latitude,Longitude";
         }
 
-        public string EncodeResult(Result result)
+        private static string Escape(string s)
         {
-            return $"{result.Name},{result.Geometry.Location.Lat},{result.Geometry.Location.Lng}";
+            return $"\"{s}\"";
         }
 
-        public string EncodeResults(IEnumerable<string> resultStrings)
+        private static string EncodeResult(Result result)
         {
-            return string.Join(Environment.NewLine, resultStrings);
+            return $"{Escape(result.Name)}," +
+                   $"{result.Geometry.Location.Lat}," +
+                   $"{result.Geometry.Location.Lng}";
+        }
+
+        public static string EncodeResults(IEnumerable<Result> results)
+        {
+            return
+                $"{EncodeHeader()}{Environment.NewLine}" +
+                $"{string.Join(Environment.NewLine, results.Select(EncodeResult))}";
         }
     }
 }
